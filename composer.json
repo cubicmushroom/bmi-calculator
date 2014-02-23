@@ -1,0 +1,24 @@
+{
+    "name": "cubicmushroom/bmi-calculator",
+    "description": "Calculates BMI based on input height and weight",
+    "license": "GNU v2",
+    "authors": [
+        {
+            "name": "Toby Griffiths",
+            "email": "toby@cubicmushroom.co.uk"
+        }
+    ],
+    "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/ToGri/php-units-of-measure.git"
+        }
+    ],
+    "require": {
+        "triplepoint/php-units-of-measure": "v1.1.2"
+    },
+    "autoload": {
+        "psr-4" : {"CubicMushroom\\BMI\\": "src/"}
+    }
+}

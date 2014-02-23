@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model xlink:href="/usr/share/php5/PEAR/data/phing/etc/phing-grammar.rng"
+        type="application/xml"
+        schematypens="http://relaxng.org/ns/structure/1.0" ?>
+<!--suppress ALL -->
+<project name="${Project}" basedir="." default="build">
+    <property file="./${propertiesFile}.properties"/>
+
+    <property name="package" value="${phing.project.name}"/>
+    <property name="buildDir" value="./build/files"/>
+    <property name="srcDir" value="${project.basedir}"/>
+    <property name="vendorDir" value="${project.basedir}/vendor"/>
+    <property name="propertiesFilePath" value="${project.basedir}"/>
+
+    <fileset dir="${srcDir}" id="srcFileset">
+        <include name="**" />
+        <exclude name=".idea/" />
+        <exclude name="vendor/" />
+        <exclude name="build/" />
+    </fileset>
+
+    <!-- Vendor files we want to include in the build -->
+    <fileset dir="${vendorDir}" id="vendorFileset">
+        <include name="autoload.php"/>
+        <include name="composer/**"/>
+        <!-- Add additional vendor files/directories here -->
+    </fileset>
+
+    <fileset dir="${propertiesFilePath}" id="propertiesFiles">
+        <include name="*.properties"/>
+    </fileset>
+
+    <!-- ============================================  -->
+    <!-- Target: reset                               -->
+    <!-- ============================================  -->
+    <target name="reset">
+        <echo msg="Resetting build directory"/>
+        <delete dir="${buildDir}"/>
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: prepare                               -->
+    <!-- ============================================  -->
+    <target name="prepare">
+        <echo msg="Making directory ${buildDir}"/>
+        <mkdir dir="${buildDir}"/>
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: build                                 -->
+    <!-- ============================================  -->
+    <target name="build" depends="prepare">
+
+        <warn msg="*** Composer not automatically run, so autoloader may need updating. ***"/>
+        <!--<composer command="install">-->
+        <!--<arg value="- -dev"/>-->
+        <!--</composer>-->
+
+        <echo msg="Copying files to build directory..."/>
+
+        <echo msg="Copying source files to build files directory..."/>
+        <copy todir="${buildDir}">
+            <fileset refid="srcFileset"/>
+            <filterchain>
+                <replacetokens begintoken="##" endtoken="##">
+                    <token key="VERSION" value="${plugin.version}"/>
+                    <token key="PLUGIN_NAME" value="${plugin.name}"/>
+                    <token key="PLUGIN_URI" value="${plugin.uri}"/>
+                    <token key="PLUGIN_AUTHOR" value="${plugin.author.name}"/>
+                    <token key="PLUGIN_AUTHOR_COMPANY" value="${plugin.author.company}"/>
+                    <token key="AUTHOR_URI" value="${plugin.author.uri}"/>
+                    <token key="TEXT_DOMAIN" value="${plugin.text_domain}"/>
+                </replacetokens>
+            </filterchain>
+        </copy>
+
+        <echo msg="Copying vendor files to build files directory..."/>
+        <copy todir="${buildDir}/vendor">
+            <fileset refid="vendorFileset"/>
+        </copy>
+
+        <!-- Update the paths in the composer class map autoloader -->
+        <reflexive>
+            <fileset dir="${buildDir}/vendor/composer">
+                <include name="autoload_classmap.php"/>
+            </fileset>
+            <filterchain>
+                <replaceregexp>
+                    <regexp pattern="\$baseDir\s\.\s\'/src/" replace="$baseDir . '/"/>
+                    <regexp pattern="\$baseDir = dirname\(dirname\(\$vendorDir\)\);"
+                            replace="$baseDir = dirname($vendorDir);"/>
+                </replaceregexp>
+            </filterchain>
+        </reflexive>
+    </target>
+
+
+    <!-- ============================================  -->
+    <!-- Target: rebuild                               -->
+    <!-- ============================================  -->
+    <target name="rebuild">
+        <phingcall target="reset"/>
+        <phingcall target="build"/>
+    </target>
+
+
+    <!-- ============================================  -->
+    <!-- Target: release                               -->
+    <!-- ============================================  -->
+    <target name="release">
+
+        <echo msg="Preparing release..."/>
+
+        <!-- Get new version number -->
+        <input message="Version number (don't include 'v' at the beginning)" propertyName="plugin.version"/>
+
+        <echo msg="Releasing version ${plugin.version} of plugin"/>
+
+        <echo msg="Updating properties files..."/>
+        <reflexive>
+            <fileset refid="propertiesFiles"/>
+            <filterchain>
+                <replaceregexp>
+                    <regexp pattern="\nplugin.version=(.*)\n"
+                            replace="${line.separator}plugin.version=${plugin.version}${line.separator}"/>
+                </replaceregexp>
+            </filterchain>
+        </reflexive>
+
+        <phingcall target="since"/>
+
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: since                                 -->
+    <!-- ============================================  -->
+    <target name="since">
+        <echo msg="Updating @since tags in source..."/>
+
+        <reflexive>
+            <fileset refid="srcFileset"/>
+            <filterchain>
+                <replacetokens begintoken="##" endtoken="##">
+                    <token key="SINCE" value="${plugin.version}"/>
+                </replacetokens>
+            </filterchain>
+        </reflexive>
+    </target>
+
+
+    <!-- ======================== -->
+    <!-- Helper targets           -->
+    <!-- ======================== -->
+
+    <target name="echoFilesetFile">
+        <echo>file: rel:${filename}|abs:${absfilename}</echo>
+    </target>
+</project>

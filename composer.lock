@@ -1,0 +1,77 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
+    "hash": "bdb99fb97ba316f2b10797e24d63598a",
+    "packages": [
+        {
+            "name": "triplepoint/php-units-of-measure",
+            "version": "v1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ToGri/php-units-of-measure.git",
+                "reference": "63ddb6969bfde9a0d0039c95048453dcb6d5e433"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ToGri/php-units-of-measure/zipball/63ddb6969bfde9a0d0039c95048453dcb6d5e433",
+                "reference": "63ddb6969bfde9a0d0039c95048453dcb6d5e433",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.5"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*",
+                "squizlabs/php_codesniffer": "1.4.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PhpUnitsOfMeasure": "source/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Hanson",
+                    "email": "jonathan@jonathan-hanson.org",
+                    "homepage": "http://www.jonathan-hanson.org/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A PHP library for converting between standard units of measure.",
+            "homepage": "https://github.com/triplepoint/php-units-of-measure",
+            "keywords": [
+                "conversion",
+                "data",
+                "measurements"
+            ],
+            "support": {
+                "email": "jonathan@jonathan-hanson.org",
+                "issues": "https://github.com/triplepoint/php-units-of-measure/issues",
+                "source": "https://github.com/triplepoint/php-units-of-measure"
+            },
+            "time": "2014-02-10 00:05:32"
+        }
+    ],
+    "packages-dev": [
+
+    ],
+    "aliases": [
+
+    ],
+    "minimum-stability": "dev",
+    "stability-flags": [
+
+    ],
+    "platform": [
+
+    ],
+    "platform-dev": [
+
+    ]
+}

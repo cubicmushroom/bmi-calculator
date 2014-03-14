@@ -90,21 +90,23 @@ class Calculator
         return $this;
     }
 
-
     /**
-     * Sets the height to use for the calculation
+     * Sets the height to use for the calculation in feet and inches
      *
      * @since ##SINCE##
      *
-     * @param int|float $height Height string in the format 6'3"
+     * @param int|float $ft Height in feet
+     * @param int|float $in Height in inches
      *
      * @throws \InvalidArgumentException if $height is not in a valid format
      *
      * @return $this
      */
-    public function heightInFeet( $height )
+    public function heightInFtAndIn( $ft, $in )
     {
-        $this->setHeight( $height, 'ft' );
+        $in = ( $ft * 12 ) + $in;
+
+        $this->setHeight( $in, 'in' );
 
         return $this;
     }
@@ -114,13 +116,13 @@ class Calculator
      *
      * @since ##SINCE##
      *
-     * @param int|float $weight
+     * @param int|float $kgs
      *
      * @return $this
      */
-    public function weightInKgs( $weight )
+    public function weightInKgs( $kgs )
     {
-        $this->setWeight( $weight, 'kg' );
+        $this->setWeight( $kgs, 'kg' );
 
         return $this;
     }
@@ -130,13 +132,32 @@ class Calculator
      *
      * @since ##SINCE##
      *
-     * @param int|float $weight Weight in pounds
+     * @param int|float $lbs Weight in pounds
      *
      * @return $this
      */
-    public function weightInLbs( $weight )
+    public function weightInLbs( $lbs )
     {
-        $this->setWeight( $weight, 'lb' );
+        $this->setWeight( $lbs, 'lb' );
+
+        return $this;
+    }
+
+    /**
+     * Sets the weight in stone and pounds
+     *
+     * @since ##SINCE##
+     *
+     * @param int|float $st  Weight in stone
+     * @param int|float $lbs Weight in pounds
+     *
+     * @return $this
+     */
+    public function weightInStAndLbs( $st, $lbs )
+    {
+        $lbs = ( $st * 14 ) + $lbs;
+
+        $this->setWeight( $lbs, 'lb' );
 
         return $this;
     }

@@ -243,6 +243,8 @@ class Calculator
 
         $this->height = $height->toUnit( 'm' );
 
+        $this->updateBMI();
+
         return $this;
     }
 

@@ -19,6 +19,8 @@
         "triplepoint/php-units-of-measure": "v1.1.2"
     },
     "autoload": {
-        "psr-4" : {"CubicMushroom\\BMI\\": "src/"}
+        "psr-4": {
+            "CubicMushroom\\BMI\\": "src/"
+        }
     }
 }

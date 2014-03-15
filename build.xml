@@ -13,10 +13,10 @@
     <property name="propertiesFilePath" value="${project.basedir}"/>
 
     <fileset dir="${srcDir}" id="srcFileset">
-        <include name="**" />
-        <exclude name=".idea/" />
-        <exclude name="vendor/" />
-        <exclude name="build/" />
+        <include name="**"/>
+        <exclude name=".idea/"/>
+        <exclude name="vendor/"/>
+        <exclude name="build/"/>
     </fileset>
 
     <!-- Vendor files we want to include in the build -->

@@ -239,8 +239,8 @@ class Calculator
      */
     public function setHeight( $height, $unit = 'm' )
     {
-        $height = new Length( $height, $unit );
 
+        $height       = new Length( $height, $unit );
         $this->height = $height->toUnit( 'm' );
 
         $this->updateBMI();
@@ -273,8 +273,7 @@ class Calculator
      */
     public function setWeight( $weight, $unit = 'kg' )
     {
-        $weight = new Mass( $weight, $unit );
-
+        $weight       = new Mass( $weight, $unit );
         $this->weight = $weight->toUnit( 'kg' );
 
         $this->updateBMI();
